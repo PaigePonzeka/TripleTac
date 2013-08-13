@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="stylesheets/screen.css">
+    <title> Triple Tic Tac Toe </title>
+  </head>
+  <body>
+    <h1> Triple Tac </h1>
+
+    <div id="boards" class="boards-container">
+      
+    </div>
+    <script id="board-template" type="text/x-handlebars-template">
+      <ul class="js-board board">
+        <li class="position-0" data-x=0 data-y=0></li>
+        <li class="position-1" data-x=1 data-y=0></li>
+        <li class="position-2" data-x=2 data-y=0></li>
+        <li class="position-3" data-x=0 data-y=1></li>
+        <li class="position-4" data-x=1 data-y=1></li>
+        <li class="position-5" data-x=1 data-y=2></li>
+        <li class="position-6" data-x=2 data-y=0></li>
+        <li class="position-7" data-x=2 data-y=1></li>
+        <li class="position-8" data-x=2 data-y=2></li>
+      </ul>
+    </script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="scripts/handlebars.js"></script>
+    <script type="text/javascript" src="scripts/scripts.js"></script>
+  </body>
+</html>

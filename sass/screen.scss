@@ -1,0 +1,53 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+@import "compass_twitter_bootstrap";
+
+$piece_size: 50px;
+$board_size: ($piece_size + 2) * 3;
+$board-padding: 20px;
+.boards-container {
+  width: ($board_size + ($board-padding * 2) ) * 3 ;
+  margin: 0 auto;
+}
+
+.board {
+  background: #fff;
+  width: $board_size;
+  height: $board_size;
+  float: left;
+  margin: $board-padding;
+
+  > li {
+    width: $piece_size;
+    height: $piece_size;
+    float: left;
+    border: 1px solid #888;
+    cursor: pointer;
+    text-align: center;
+    line-height: $piece_size;
+    font-size: 24px;
+    color: #333;
+
+    &.position-0, &.position-1, &.position-2 {
+      border-top: none;
+    }
+
+    &.position-0, &.position-3, &.position-6 {
+      border-left: none;
+    }
+
+    &.position-6, &.position-7, &.position-8 {
+      border-bottom: none;
+    }
+
+     &.position-2, &.position-5, &.position-8 {
+      border-right: none;
+    }
+  }
+}
+
+
