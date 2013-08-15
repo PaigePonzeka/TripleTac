@@ -1,6 +1,6 @@
 var $boardSource = $('#board-template').html();
 var boardTemplate = Handlebars.compile($boardSource);
-var boardHtml    = boardTemplate({});
+
 var $boardsContainer = $('#boards');
 var boardPiece = ".js-board > li";
 var pieces = ["X", "O"];
@@ -14,10 +14,20 @@ $(document).ready(function(){
     makePlay(this);
   });
 });
+function generateBoard(){
+  // make 3 column 3 for board
+  for(var y = 0; y < 3; y++){
+    for(var x = 0; x < 3; x++) {
+      var axis = {"x" : x, "y": y};
+      var boardHtml    = boardTemplate(axis);
+      $boardsContainer.append(boardHtml);
+    }
+  }
+}
 
 function makePlay(piece){
-  if(!$(piece).hasClass('played')){
-    console.log("\n ---------NEW PLAY---------- \n");
+  var pieceBoard = $(piece).closest('.js-board');
+  if(!$(piece).hasClass('played') && !pieceBoard.hasClass('disabled-board')){
     var currentPiece = pieces[turn%numOfPlayers];
     $(piece).html(currentPiece).addClass('played').attr('data-piece',currentPiece);
     turn++;
@@ -25,23 +35,29 @@ function makePlay(piece){
     pieceObj.x = $(piece).data('x');
     pieceObj.y = $(piece).data('y');
     pieceObj.piece = $(piece).data('piece');
-    pieceObj.board = $(piece).closest('.js-board');
+    pieceObj.board = pieceBoard;
     pieceObj.obj = $(piece);
     checkBoardWinner(pieceObj, currentPiece);
+    setNextPlay(pieceObj.x, pieceObj.y);
    
   }
 }
+// highlight the board for the next play -- disabled the rest
+function setNextPlay(x, y){
+  var board = $('.js-board[data-x="'+x +'"]').filter('*[data-y="'+y +'"]');
+  disabledBoards();
+  board.removeClass('disabled-board').addClass('highlighted-board');
 
-function generateBoard(){
-  for(var i = 0; i < 9; i++){
-    $boardsContainer.append(boardHtml);
-  }
 }
-
+function disabledBoards(){
+  $('.highlighted-board').removeClass('highlighted-board');
+  $('.js-board').addClass('disabled-board');
+}
 function checkBoardWinner(pieceObj, currentPiece){
-  console.log(pieceObj);
+
   if(canCheckPosition(1, 1, pieceObj) == 3) {
     console.log("WINNER!");
+    // highlight the winner
   }
   else if(canCheckPosition((-1), 1, pieceObj) == 3) {
     console.log("WINNER!");
@@ -51,6 +67,9 @@ function checkBoardWinner(pieceObj, currentPiece){
   }
   else if(canCheckPosition( 1, 0, pieceObj) == 3) {
     console.log("WINNER!");
+  }
+  else {
+    pieceObj.board.find('li').removeClass('matched');
   }
   /*if(checkForwardDiagonal(pieceObj)){
     console.log ("YAY");
@@ -79,9 +98,7 @@ function canCheckPosition(xDiff, yDiff, pieceObj){
   var backwardPiece = {};
   backwardPiece.x = pieceObj.x + (-xDiff);
   backwardPiece.y = pieceObj.y + (-yDiff);
-  console.log("PIECES");
-  console.log(forwardPiece);
-  console.log(backwardPiece);
+  pieceObj.board.find('li').removeClass('matched');
   if(isWithinBounds(forwardPiece.x, forwardPiece.y)){
     if(isWithinBounds(backwardPiece.x, backwardPiece.y)){
       // check going forwards and going backwards
@@ -96,8 +113,6 @@ function canCheckPosition(xDiff, yDiff, pieceObj){
   else{
 
     if(isWithinBounds(backwardPiece.x, backwardPiece.y)){
-      console.log(backwardPiece);
-      console.log("BACK CORNER");
       //newPiece.board = pieceObj.board;
       //newPiece.piece = findBoardPiece(pieceObj.board, newPiece.x, newPiece.y).data('piece');
       return 1 + checkPosition((-xDiff), (-yDiff), pieceObj);
@@ -109,23 +124,21 @@ function canCheckPosition(xDiff, yDiff, pieceObj){
 }
 
 function checkPosition(xDiff, yDiff, pieceObj){
-  console.log("check Position");
   var newPiece = {};
-  console.log(pieceObj);
   newPiece.x = pieceObj.x + (xDiff);
   newPiece.y = pieceObj.y + (yDiff);
 
   if(isWithinBounds(newPiece.x, newPiece.y)){
     newPiece.board = pieceObj.board;
-    newPiece.piece = findBoardPiece(pieceObj.board, newPiece.x, newPiece.y).data('piece');
-    console.log(newPiece.piece);
-    if(newPiece.piece != undefined && newPiece.piece == pieceObj.piece) {
+    newPiece.obj = findBoardPiece(pieceObj.board, newPiece.x, newPiece.y)
+    newPiece.piece = newPiece.obj.data('piece');
+    if(newPiece.piece != undefined && (newPiece.piece.localeCompare(pieceObj.piece) == 0)) {
       //continue checking
-      console.log("MATCH at" +newPiece.x +"," + newPiece.y +": Continue");
+      newPiece.obj.addClass('matched');
+      pieceObj.obj.addClass('matched');
       return 1 + checkPosition(xDiff, yDiff, newPiece);
     }
     else{
-      console.log("no winner");
       return 0;
     }
 
@@ -197,7 +210,5 @@ function setWinner(top, bottom, current){
   current.css('border-color', "#f00").css('color', "#f00");;
 }
 function findBoardPiece(board, x, y){
-  console.log(x);
-  console.log(y);
-  return board.find('*[data-x="'+x +'"]').filter('*[data-y="'+y +'"]').css('border-color', "#ff0");
+  return board.find('*[data-x="'+x +'"]').filter('*[data-y="'+y +'"]');
 }

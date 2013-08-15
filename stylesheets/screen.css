@@ -6806,7 +6806,7 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
 
 /* line 12, ../sass/screen.scss */
 .boards-container {
-  width: 588px;
+  width: 573px;
   margin: 0 auto;
 }
 
@@ -6816,9 +6816,18 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   width: 156px;
   height: 156px;
   float: left;
-  margin: 20px;
+  margin: 15px;
+  border: 1px solid #fff;
 }
 /* line 24, ../sass/screen.scss */
+.board.highlighted-board {
+  border: 1px solid #f00;
+}
+/* line 27, ../sass/screen.scss */
+.board.disabled-board {
+  background: #666;
+}
+/* line 30, ../sass/screen.scss */
 .board > li {
   width: 50px;
   height: 50px;
@@ -6830,19 +6839,24 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   font-size: 24px;
   color: #333;
 }
-/* line 35, ../sass/screen.scss */
+/* line 41, ../sass/screen.scss */
+.board > li.matched {
+  color: #f00;
+  font-weight: bold;
+}
+/* line 45, ../sass/screen.scss */
 .board > li.position-0, .board > li.position-1, .board > li.position-2 {
   border-top: none;
 }
-/* line 39, ../sass/screen.scss */
+/* line 49, ../sass/screen.scss */
 .board > li.position-0, .board > li.position-3, .board > li.position-6 {
   border-left: none;
 }
-/* line 43, ../sass/screen.scss */
+/* line 53, ../sass/screen.scss */
 .board > li.position-6, .board > li.position-7, .board > li.position-8 {
   border-bottom: none;
 }
-/* line 47, ../sass/screen.scss */
+/* line 57, ../sass/screen.scss */
 .board > li.position-2, .board > li.position-5, .board > li.position-8 {
   border-right: none;
 }

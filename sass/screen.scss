@@ -8,9 +8,9 @@
 
 $piece_size: 50px;
 $board_size: ($piece_size + 2) * 3;
-$board-padding: 20px;
+$board-padding: 15px;
 .boards-container {
-  width: ($board_size + ($board-padding * 2) ) * 3 ;
+  width: ($board_size + ($board-padding * 2) ) * 3 + 15;
   margin: 0 auto;
 }
 
@@ -20,7 +20,13 @@ $board-padding: 20px;
   height: $board_size;
   float: left;
   margin: $board-padding;
-
+  border: 1px solid #fff;
+  &.highlighted-board {
+    border: 1px solid #f00;
+  }
+  &.disabled-board{
+    background: #666;
+  }
   > li {
     width: $piece_size;
     height: $piece_size;
@@ -32,6 +38,10 @@ $board-padding: 20px;
     font-size: 24px;
     color: #333;
 
+    &.matched {
+      color: #f00;
+      font-weight: bold;
+    }
     &.position-0, &.position-1, &.position-2 {
       border-top: none;
     }
