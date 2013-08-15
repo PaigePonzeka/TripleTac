@@ -43,6 +43,15 @@ function checkBoardWinner(pieceObj, currentPiece){
   if(canCheckPosition(1, 1, pieceObj) == 3) {
     console.log("WINNER!");
   }
+  else if(canCheckPosition((-1), 1, pieceObj) == 3) {
+    console.log("WINNER!");
+  }
+  else if(canCheckPosition( 0, 1, pieceObj) == 3) {
+    console.log("WINNER!");
+  }
+  else if(canCheckPosition( 1, 0, pieceObj) == 3) {
+    console.log("WINNER!");
+  }
   /*if(checkForwardDiagonal(pieceObj)){
     console.log ("YAY");
   }
