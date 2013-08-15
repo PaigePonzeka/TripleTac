@@ -13,7 +13,10 @@ $board-padding: 15px;
   width: ($board_size + ($board-padding * 2) ) * 3 + 15;
   margin: 0 auto;
 }
-
+  
+h1{
+  text-align: center;
+}
 .board {
   background: #fff;
   width: $board_size;
@@ -25,7 +28,19 @@ $board-padding: 15px;
     border: 1px solid #f00;
   }
   &.disabled-board{
-    background: #666;
+    background: #888;
+    color: #000;
+    >li{
+      border-color: #000;
+    }
+  }
+  &.won-board {
+    > li {
+      border-color: #f00;
+    }
+    &.disabled-board{
+      border-color: #600;
+    }
   }
   > li {
     width: $piece_size;
