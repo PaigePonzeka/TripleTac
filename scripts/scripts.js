@@ -10,10 +10,12 @@ var turn = 0;
 $(document).ready(function(){
   generateBoard();
 
+  setWinner($('.board-container:first-child .js-board'), 'O');
   $('#boards').on('click', boardPiece, function(){
     makePlay(this);
   });
 });
+
 function generateBoard(){
   // make 3 column 3 for board
   for(var y = 0; y < 3; y++){
@@ -39,6 +41,7 @@ function makePlay(piece){
     pieceObj.obj = $(piece);
     checkBoardWinner(pieceObj, currentPiece);
     setNextPlay(pieceObj.x, pieceObj.y);
+    $('.js-player-turn-piece').html(pieces[turn%numOfPlayers]);
   }
   // TODO if the board is disabled show flash the available board
 }
@@ -164,7 +167,7 @@ function checkBoard(topXDiff, topYDiff, bottomXDiff, bottomYDiff, currentPiece){
   }
 }
 function setWinner(board, winPiece){
-    board.addClass('won-board').data('winner', winPiece);
+    board.addClass('won-board').attr('data-piece', winPiece).addClass('piece-' + winPiece);
 }
 
 function findBoardPiece(board, x, y){

@@ -28,8 +28,8 @@ h1{
     border: 1px solid #f00;
   }
   &.disabled-board{
-    background: #888;
-    color: #000;
+    opacity: 0.4;
+    background: #ddd;
     >li{
       border-color: #000;
     }
@@ -40,6 +40,12 @@ h1{
     }
     &.disabled-board{
       border-color: #600;
+    }
+    &.piece-x{
+      background-image: url('../images/x.png');
+    }
+     &.piece-o{
+      background-image: url('../images/o.png');
     }
   }
   > li {
@@ -75,4 +81,12 @@ h1{
   }
 }
 
+.board-container{
+  position: relative;
+  .won-board-piece {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
 

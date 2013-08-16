@@ -6830,8 +6830,8 @@ h1 {
 }
 /* line 30, ../sass/screen.scss */
 .board.disabled-board {
-  background: #888;
-  color: #000;
+  opacity: 0.4;
+  background: #ddd;
 }
 /* line 33, ../sass/screen.scss */
 .board.disabled-board > li {
@@ -6845,7 +6845,15 @@ h1 {
 .board.won-board.disabled-board {
   border-color: #600;
 }
-/* line 45, ../sass/screen.scss */
+/* line 44, ../sass/screen.scss */
+.board.won-board.piece-x {
+  background-image: url("../images/x.png");
+}
+/* line 47, ../sass/screen.scss */
+.board.won-board.piece-o {
+  background-image: url("../images/o.png");
+}
+/* line 51, ../sass/screen.scss */
 .board > li {
   width: 50px;
   height: 50px;
@@ -6857,24 +6865,35 @@ h1 {
   font-size: 24px;
   color: #333;
 }
-/* line 56, ../sass/screen.scss */
+/* line 62, ../sass/screen.scss */
 .board > li.matched {
   color: #f00;
   font-weight: bold;
 }
-/* line 60, ../sass/screen.scss */
+/* line 66, ../sass/screen.scss */
 .board > li.position-0, .board > li.position-1, .board > li.position-2 {
   border-top: none;
 }
-/* line 64, ../sass/screen.scss */
+/* line 70, ../sass/screen.scss */
 .board > li.position-0, .board > li.position-3, .board > li.position-6 {
   border-left: none;
 }
-/* line 68, ../sass/screen.scss */
+/* line 74, ../sass/screen.scss */
 .board > li.position-6, .board > li.position-7, .board > li.position-8 {
   border-bottom: none;
 }
-/* line 72, ../sass/screen.scss */
+/* line 78, ../sass/screen.scss */
 .board > li.position-2, .board > li.position-5, .board > li.position-8 {
   border-right: none;
+}
+
+/* line 84, ../sass/screen.scss */
+.board-container {
+  position: relative;
+}
+/* line 86, ../sass/screen.scss */
+.board-container .won-board-piece {
+  position: absolute;
+  top: 0;
+  left: 0;
 }

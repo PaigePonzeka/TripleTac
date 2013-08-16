@@ -1,15 +1,23 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="stylesheets/screen.css">
-    <title> Triple Tic Tac Toe </title>
+    <title> Super Tic Tac Toe </title>
   </head>
   <body>
-    <h1> Triple Tac </h1>
-
+    <h1> Super Tic Tac Toe </h1>
+    <ul class="rule">
+      <li> First Player's moves may go on any board<br />all following moves are placed on the board corresponding to the preview move <br/><small>  (i.e. if a move is made in the top right corner of ANY board then the move had to be made in any square of the top right corner board) </small> </li>
+      <li> 
+      <li> The first player to get three in a row on a board wins that board <li>
+      <li> A Player wins by having three "won" boards in a row <li>
+      </ul>
+      <div class="player-turn"> Now Playing : <strong class="js-player-turn-piece"> X </strong>
     <div id="boards" class="boards-container">
       
     </div>
     <script id="board-template" type="text/x-handlebars-template">
+      <div class="board-container">
+
       <ul class="js-board board" data-x={{x}} data-y={{y}}>
         <li class="position-0" data-x=0 data-y=0></li>
         <li class="position-1" data-x=1 data-y=0></li>
@@ -21,6 +29,7 @@
         <li class="position-7" data-x=1 data-y=2></li>
         <li class="position-8" data-x=2 data-y=2></li>
       </ul>
+      </div>
     </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="scripts/handlebars.js"></script>
