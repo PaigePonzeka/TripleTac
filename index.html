@@ -18,21 +18,22 @@
     <script id="board-template" type="text/x-handlebars-template">
       <div class="board-container">
 
-      <ul class="js-board board" data-x={{x}} data-y={{y}}>
-        <li class="position-0" data-x=0 data-y=0></li>
-        <li class="position-1" data-x=1 data-y=0></li>
-        <li class="position-2" data-x=2 data-y=0></li>
-        <li class="position-3" data-x=0 data-y=1></li>
-        <li class="position-4" data-x=1 data-y=1></li>
-        <li class="position-5" data-x=2 data-y=1></li>
-        <li class="position-6" data-x=0 data-y=2></li>
-        <li class="position-7" data-x=1 data-y=2></li>
-        <li class="position-8" data-x=2 data-y=2></li>
+      <ul class="js-board board" data-x={{x}} data-y={{y}} id="board-position-{{board}}">
+        <li class="position-0" data-x=0 data-y=0 data-position="position-0"></li>
+        <li class="position-1" data-x=1 data-y=0 data-position="position-1"></li>
+        <li class="position-2" data-x=2 data-y=0 data-position="position-2"></li>
+        <li class="position-3" data-x=0 data-y=1 data-position="position-3"></li>
+        <li class="position-4" data-x=1 data-y=1 data-position="position-4"></li>
+        <li class="position-5" data-x=2 data-y=1 data-position="position-5"></li>
+        <li class="position-6" data-x=0 data-y=2 data-position="position-6"></li>
+        <li class="position-7" data-x=1 data-y=2 data-position="position-7"></li>
+        <li class="position-8" data-x=2 data-y=2 data-position="position-8"></li>
       </ul>
       </div>
     </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="scripts/handlebars.js"></script>
     <script type="text/javascript" src="scripts/scripts.js"></script>
+    <div id="json"> </div>
   </body>
 </html>

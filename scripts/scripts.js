@@ -6,29 +6,35 @@ var boardPiece = ".js-board > li";
 var pieces = ["X", "O"];
 var numOfPlayers = pieces.length;
 var turn = 0;
+var plays = [];
 
 $(document).ready(function(){
   generateBoard();
 
-  setWinner($('.board-container:first-child .js-board'), 'O');
+  //setWinner($('.board-container:first-child .js-board'), 'O');
   $('#boards').on('click', boardPiece, function(){
     makePlay(this);
   });
+  runTest();
 });
 
 function generateBoard(){
   // make 3 column 3 for board
+  var boardCount = 0;
   for(var y = 0; y < 3; y++){
     for(var x = 0; x < 3; x++) {
-      var axis = {"x" : x, "y": y};
+      var axis = {"x" : x, "y": y, "board": boardCount};
       var boardHtml    = boardTemplate(axis);
       $boardsContainer.append(boardHtml);
+      boardCount  += 1;
     }
   }
 }
 
 function makePlay(piece){
   var pieceBoard = $(piece).closest('.js-board');
+  var play = {};
+  play.board = pieceBoard.attr('id');
   if(!$(piece).hasClass('played') && !pieceBoard.hasClass('disabled-board')){
     var currentPiece = pieces[turn%numOfPlayers];
     $(piece).html(currentPiece).addClass('played').attr('data-piece',currentPiece);
@@ -42,7 +48,12 @@ function makePlay(piece){
     checkBoardWinner(pieceObj, currentPiece);
     setNextPlay(pieceObj.x, pieceObj.y);
     $('.js-player-turn-piece').html(pieces[turn%numOfPlayers]);
+    play.piece = pieceObj.obj.data('position');
+    plays.push(play);
+    //$('#json').append('{"boardPosition": "'+play.board + '",' + '"piecePosition": "' + play.piece +'"},');
+    //console.log(plays);
   }
+
   // TODO if the board is disabled show flash the available board
 }
 // highlight the board for the next play -- disabled the rest
@@ -172,4 +183,175 @@ function setWinner(board, winPiece){
 
 function findBoardPiece(board, x, y){
   return board.find('*[data-x="'+x +'"]').filter('*[data-y="'+y +'"]');
+}
+
+function runTest(){
+  var test = testBoard();
+  $.each(test, function(play){
+    console.log(this.boardPosition);
+    //$('#'+this.boardPosition).find('.' + this.piecePosition).css('background', "#f0f");
+    $('#'+this.boardPosition).find('.' + this.piecePosition).click();
+  });
+}
+
+function testBoard(){
+  var testboard = [
+    {
+        "boardPosition": "board-position-1",
+        "piecePosition": "position-2"
+    },
+    {
+        "boardPosition": "board-position-2",
+        "piecePosition": "position-4"
+    },
+    {
+        "boardPosition": "board-position-4",
+        "piecePosition": "position-0"
+    },
+    {
+        "boardPosition": "board-position-0",
+        "piecePosition": "position-4"
+    },
+    {
+        "boardPosition": "board-position-4",
+        "piecePosition": "position-2"
+    },
+    {
+        "boardPosition": "board-position-2",
+        "piecePosition": "position-2"
+    },
+    {
+        "boardPosition": "board-position-2",
+        "piecePosition": "position-7"
+    },
+    {
+        "boardPosition": "board-position-7",
+        "piecePosition": "position-2"
+    },
+    {
+        "boardPosition": "board-position-2",
+        "piecePosition": "position-6"
+    },
+    {
+        "boardPosition": "board-position-6",
+        "piecePosition": "position-2"
+    },
+    {
+        "boardPosition": "board-position-2",
+        "piecePosition": "position-8"
+    },
+    {
+        "boardPosition": "board-position-8",
+        "piecePosition": "position-1"
+    },
+    {
+        "boardPosition": "board-position-1",
+        "piecePosition": "position-1"
+    },
+    {
+        "boardPosition": "board-position-1",
+        "piecePosition": "position-8"
+    },
+    {
+        "boardPosition": "board-position-8",
+        "piecePosition": "position-0"
+    },
+    {
+        "boardPosition": "board-position-0",
+        "piecePosition": "position-7"
+    },
+    {
+        "boardPosition": "board-position-7",
+        "piecePosition": "position-0"
+    },
+    {
+        "boardPosition": "board-position-0",
+        "piecePosition": "position-2"
+    },
+    {
+        "boardPosition": "board-position-2",
+        "piecePosition": "position-3"
+    },
+    {
+        "boardPosition": "board-position-3",
+        "piecePosition": "position-5"
+    },
+    {
+        "boardPosition": "board-position-5",
+        "piecePosition": "position-0"
+    },
+    {
+        "boardPosition": "board-position-0",
+        "piecePosition": "position-8"
+    },
+    {
+        "boardPosition": "board-position-8",
+        "piecePosition": "position-2"
+    },
+    {
+        "boardPosition": "board-position-2",
+        "piecePosition": "position-1"
+    },
+    {
+        "boardPosition": "board-position-1",
+        "piecePosition": "position-0"
+    },
+    {
+        "boardPosition": "board-position-0",
+        "piecePosition": "position-3"
+    },
+    {
+        "boardPosition": "board-position-3",
+        "piecePosition": "position-6"
+    },
+    {
+        "boardPosition": "board-position-6",
+        "piecePosition": "position-0"
+    },
+    {
+        "boardPosition": "board-position-0",
+        "piecePosition": "position-6"
+    },
+    {
+        "boardPosition": "board-position-6",
+        "piecePosition": "position-5"
+    },
+    {
+        "boardPosition": "board-position-5",
+        "piecePosition": "position-4"
+    },
+    {
+        "boardPosition": "board-position-4",
+        "piecePosition": "position-8"
+    },
+    {
+        "boardPosition": "board-position-8",
+        "piecePosition": "position-4"
+    },
+    {
+        "boardPosition": "board-position-4",
+        "piecePosition": "position-5"
+    },
+    {
+        "boardPosition": "board-position-5",
+        "piecePosition": "position-8"
+    },
+    {
+        "boardPosition": "board-position-8",
+        "piecePosition": "position-6"
+    },
+    {
+        "boardPosition": "board-position-6",
+        "piecePosition": "position-7"
+    },
+    {
+        "boardPosition": "board-position-7",
+        "piecePosition": "position-8"
+    },
+    {
+        "boardPosition": "board-position-8",
+        "piecePosition": "position-8"
+    }
+];
+return testboard;
 }
