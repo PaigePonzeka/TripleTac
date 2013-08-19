@@ -39,23 +39,33 @@ function makePlay(piece){
     var currentPiece = pieces[turn%numOfPlayers];
     $(piece).html(currentPiece).addClass('played').attr('data-piece',currentPiece);
     turn++;
-    var pieceObj = {};
-    pieceObj.x = $(piece).data('x');
-    pieceObj.y = $(piece).data('y');
-    pieceObj.piece = $(piece).data('piece');
-    pieceObj.board = pieceBoard;
-    pieceObj.obj = $(piece);
-    checkBoardWinner(pieceObj, currentPiece);
+    var pieceObj = createPieceObject(piece, pieceBoard);
+
+    if(!pieceBoard.hasClass('won-board')){
+      checkBoardWinner(pieceObj);
+    }
+
     setNextPlay(pieceObj.x, pieceObj.y);
     $('.js-player-turn-piece').html(pieces[turn%numOfPlayers]);
-    play.piece = pieceObj.obj.data('position');
-    plays.push(play);
+    //play.piece = pieceObj.obj.data('position');
+    //plays.push(play);
     //$('#json').append('{"boardPosition": "'+play.board + '",' + '"piecePosition": "' + play.piece +'"},');
     //console.log(plays);
   }
-
   // TODO if the board is disabled show flash the available board
 }
+
+function createPieceObject(piece, board){
+
+  var pieceObj = {};
+  pieceObj.x = $(piece).data('x');
+  pieceObj.y = $(piece).data('y');
+  pieceObj.piece = $(piece).data('piece');
+  pieceObj.board = null || board;
+  pieceObj.obj = $(piece);
+  return pieceObj;
+}
+
 // highlight the board for the next play -- disabled the rest
 function setNextPlay(x, y){
   var board = $('.js-board[data-x="'+x +'"]').filter('*[data-y="'+y +'"]');
@@ -67,22 +77,21 @@ function disabledBoards(){
   $('.highlighted-board').removeClass('highlighted-board');
   $('.js-board').addClass('disabled-board');
 }
-function checkBoardWinner(pieceObj, currentPiece){
-
+function checkBoardWinner(pieceObj){
   if(canCheckPosition(1, 1, pieceObj) == 3) {
-    setWinner(pieceObj.board, pieceObj.piece);
+    setWinner(pieceObj);
   }
   else if(canCheckPosition((-1), 1, pieceObj) == 3) {
-    setWinner(pieceObj.board, pieceObj.piece);
+    setWinner(pieceObj);
   }
   else if(canCheckPosition( 0, 1, pieceObj) == 3) {
-    setWinner(pieceObj.board, pieceObj.piece);
+    setWinner(pieceObj);
   }
   else if(canCheckPosition( 1, 0, pieceObj) == 3) {
-    setWinner(pieceObj.board, pieceObj.piece);
+    setWinner(pieceObj);
   }
   else {
-    pieceObj.board.find('li').removeClass('matched');
+    removeMatched(pieceObj);
   }
 }
 
@@ -94,7 +103,8 @@ function canCheckPosition(xDiff, yDiff, pieceObj){
   var backwardPiece = {};
   backwardPiece.x = pieceObj.x + (-xDiff);
   backwardPiece.y = pieceObj.y + (-yDiff);
-  pieceObj.board.find('li').removeClass('matched');
+  removeMatched(pieceObj);
+  console.log(pieceObj.piece);
   if(isWithinBounds(forwardPiece.x, forwardPiece.y)){
     if(isWithinBounds(backwardPiece.x, backwardPiece.y)){
       // check going forwards and going backwards
@@ -117,7 +127,11 @@ function canCheckPosition(xDiff, yDiff, pieceObj){
     }
   }
 }
-
+function removeMatched(pieceObj){
+  if(pieceObj.board){
+    pieceObj.board.find('li').removeClass('matched');
+  }
+}
 function checkPosition(xDiff, yDiff, pieceObj){
   var newPiece = {};
   newPiece.x = pieceObj.x + (xDiff);
@@ -125,7 +139,8 @@ function checkPosition(xDiff, yDiff, pieceObj){
 
   if(isWithinBounds(newPiece.x, newPiece.y)){
     newPiece.board = pieceObj.board;
-    newPiece.obj = findBoardPiece(pieceObj.board, newPiece.x, newPiece.y)
+    //newPiece.obj = findBoardPiece(pieceObj.board, newPiece.x, newPiece.y)
+    newPiece.obj = findPiece(newPiece.x, newPiece.y, newPiece.board);
     newPiece.piece = newPiece.obj.data('piece');
     if(newPiece.piece != undefined && (newPiece.piece.localeCompare(pieceObj.piece) == 0)) {
       //continue checking
@@ -160,8 +175,10 @@ function checkBoard(topXDiff, topYDiff, bottomXDiff, bottomYDiff, currentPiece){
   var bottomY = currentPiece.y + (bottomYDiff);
 
   if ((topX >= 0 && topY >= 0) && (bottomX <= 2 && bottomY <= 2)) { // make sure it fits within the bounds
-    var topPiece = findBoardPiece(currentPiece.board, topX, topY)
-    var bottomPiece = findBoardPiece(currentPiece.board, bottomX, bottomY);
+    //var topPiece = findBoardPiece(currentPiece.board, topX, topY)
+    //var bottomPiece = findBoardPiece(currentPiece.board, bottomX, bottomY);
+    var topPiece = findPiece(topX, topY, currentPiece.board);
+    var bottomPiece = findPiece(bottomX, bottomY, currentPiece.board);
     if(topPiece.data('piece') == currentPiece.piece){
       if(bottomPiece.data('piece') == currentPiece.piece){
         
@@ -177,18 +194,47 @@ function checkBoard(topXDiff, topYDiff, bottomXDiff, bottomYDiff, currentPiece){
     return false;
   }
 }
-function setWinner(board, winPiece){
-    board.addClass('won-board').attr('data-piece', winPiece).addClass('piece-' + winPiece);
+function setWinner(pieceObj){
+  if(pieceObj.board)
+  {
+   pieceObj.board.addClass('won-board').attr('data-piece', pieceObj.piece).addClass('piece-' + pieceObj.piece);
+     // if you are setting the winner check to see if the board has been won
+     var boardObj = createPieceObject(pieceObj.board, null);
+    checkGameWinner(boardObj);
+  }
+  else{
+    console.log(pieceObj.piece);
+    console.log("DO OTHER STUFF");
+  }
+
+}
+
+function checkGameWinner(board){
+  var boardObj = createPieceObject(board, null);
+  if($('.won-board').length > 2 ){
+    checkBoardWinner(board);
+  }
+}
+
+function findPiece(x, y, board){
+  if(board){
+    return findBoardPiece(board, x, y);
+  }
+  else{
+    return findBoard(x, y);
+  }
 }
 
 function findBoardPiece(board, x, y){
   return board.find('*[data-x="'+x +'"]').filter('*[data-y="'+y +'"]');
 }
+function findBoard(x, y){
+  return $('.js-board[data-x="'+x +'"]').filter('*[data-y="'+y +'"]');
+}
 
 function runTest(){
   var test = testBoard();
   $.each(test, function(play){
-    console.log(this.boardPosition);
     //$('#'+this.boardPosition).find('.' + this.piecePosition).css('background', "#f0f");
     $('#'+this.boardPosition).find('.' + this.piecePosition).click();
   });

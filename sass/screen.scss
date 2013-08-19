@@ -47,6 +47,11 @@ h1{
      &.piece-o{
       background-image: url('../images/o.png');
     }
+    &.matched {
+      > li {  
+        border-color: blue;
+      }
+    }
   }
   > li {
     width: $piece_size;
