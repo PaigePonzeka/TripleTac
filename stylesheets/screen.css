@@ -6804,18 +6804,18 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   position: fixed;
 }
 
-/* line 12, ../sass/screen.scss */
+/* line 13, ../sass/screen.scss */
 .boards-container {
   width: 573px;
   margin: 0 auto;
 }
 
-/* line 17, ../sass/screen.scss */
+/* line 18, ../sass/screen.scss */
 h1 {
   text-align: center;
 }
 
-/* line 20, ../sass/screen.scss */
+/* line 22, ../sass/screen.scss */
 .board {
   background: #fff;
   width: 156px;
@@ -6823,75 +6823,91 @@ h1 {
   float: left;
   margin: 15px;
   border: 1px solid #fff;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
 }
-/* line 27, ../sass/screen.scss */
+/* line 31, ../sass/screen.scss */
 .board.highlighted-board {
   border: 1px solid #f00;
 }
-/* line 30, ../sass/screen.scss */
+/* line 35, ../sass/screen.scss */
 .board.disabled-board {
   opacity: 0.4;
   background: #ddd;
 }
-/* line 33, ../sass/screen.scss */
+/* line 39, ../sass/screen.scss */
 .board.disabled-board > li {
   border-color: #000;
 }
-/* line 38, ../sass/screen.scss */
-.board.won-board > li {
-  border-color: #f00;
-}
-/* line 41, ../sass/screen.scss */
+/* line 46, ../sass/screen.scss */
 .board.won-board.disabled-board {
   border-color: #600;
 }
-/* line 44, ../sass/screen.scss */
+/* line 50, ../sass/screen.scss */
 .board.won-board.piece-x {
   background-image: url("../images/x.png");
 }
-/* line 47, ../sass/screen.scss */
+/* line 54, ../sass/screen.scss */
 .board.won-board.piece-o {
   background-image: url("../images/o.png");
 }
-/* line 51, ../sass/screen.scss */
+/* line 60, ../sass/screen.scss */
+.board.won-board.matched.piece-X > li {
+  border-color: #9900ff;
+}
+/* line 65, ../sass/screen.scss */
+.board.won-board.matched.piece-O > li {
+  border-color: #46a546;
+}
+/* line 72, ../sass/screen.scss */
 .board > li {
   width: 50px;
   height: 50px;
   float: left;
-  border: 1px solid #888;
+  border: 1px solid #444;
   cursor: pointer;
   text-align: center;
   line-height: 50px;
   font-size: 24px;
   color: #333;
 }
-/* line 62, ../sass/screen.scss */
+/* line 83, ../sass/screen.scss */
 .board > li.matched {
-  color: #f00;
   font-weight: bold;
 }
-/* line 66, ../sass/screen.scss */
+/* line 86, ../sass/screen.scss */
+.board > li.matched.piece-X {
+  color: #9900ff;
+}
+/* line 89, ../sass/screen.scss */
+.board > li.matched.piece-O {
+  color: #46a546;
+}
+/* line 94, ../sass/screen.scss */
 .board > li.position-0, .board > li.position-1, .board > li.position-2 {
   border-top: none;
 }
-/* line 70, ../sass/screen.scss */
+/* line 98, ../sass/screen.scss */
 .board > li.position-0, .board > li.position-3, .board > li.position-6 {
   border-left: none;
 }
-/* line 74, ../sass/screen.scss */
+/* line 102, ../sass/screen.scss */
 .board > li.position-6, .board > li.position-7, .board > li.position-8 {
   border-bottom: none;
 }
-/* line 78, ../sass/screen.scss */
+/* line 106, ../sass/screen.scss */
 .board > li.position-2, .board > li.position-5, .board > li.position-8 {
   border-right: none;
 }
 
-/* line 84, ../sass/screen.scss */
+/* line 112, ../sass/screen.scss */
 .board-container {
   position: relative;
 }
-/* line 86, ../sass/screen.scss */
+/* line 115, ../sass/screen.scss */
 .board-container .won-board-piece {
   position: absolute;
   top: 0;

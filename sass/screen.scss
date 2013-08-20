@@ -5,6 +5,7 @@
 
 @import "compass/reset";
 @import "compass_twitter_bootstrap";
+@import "colors";
 
 $piece_size: 50px;
 $board_size: ($piece_size + 2) * 3;
@@ -17,6 +18,7 @@ $board-padding: 15px;
 h1{
   text-align: center;
 }
+
 .board {
   background: #fff;
   width: $board_size;
@@ -24,40 +26,54 @@ h1{
   float: left;
   margin: $board-padding;
   border: 1px solid #fff;
+  @include border-radius(10px);
+  
   &.highlighted-board {
     border: 1px solid #f00;
   }
+  
   &.disabled-board{
     opacity: 0.4;
     background: #ddd;
+    
     >li{
       border-color: #000;
     }
   }
+
   &.won-board {
-    > li {
-      border-color: #f00;
-    }
+    
     &.disabled-board{
       border-color: #600;
     }
+    
     &.piece-x{
       background-image: url('../images/x.png');
     }
-     &.piece-o{
+    
+    &.piece-o{
       background-image: url('../images/o.png');
     }
+    
     &.matched {
-      > li {  
-        border-color: blue;
+      &.piece-X {
+        > li {
+          border-color: $purple;
+        }
+      }
+      &.piece-O {
+        > li {
+          border-color: $green;
+        }
       }
     }
   }
+  
   > li {
     width: $piece_size;
     height: $piece_size;
     float: left;
-    border: 1px solid #888;
+    border: 1px solid #444;
     cursor: pointer;
     text-align: center;
     line-height: $piece_size;
@@ -65,9 +81,16 @@ h1{
     color: #333;
 
     &.matched {
-      color: #f00;
       font-weight: bold;
+
+      &.piece-X {
+        color: $purple;
+      }
+      &.piece-O {
+        color: $green;
+      }
     }
+    
     &.position-0, &.position-1, &.position-2 {
       border-top: none;
     }
@@ -88,6 +111,7 @@ h1{
 
 .board-container{
   position: relative;
+  
   .won-board-piece {
     position: absolute;
     top: 0;

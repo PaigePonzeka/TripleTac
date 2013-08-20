@@ -7,10 +7,10 @@ var pieces = ["X", "O"];
 var numOfPlayers = pieces.length;
 var turn = 0;
 var plays = [];
+var gameOver = false;
 
 $(document).ready(function(){
   generateBoard();
-
   //setWinner($('.board-container:first-child .js-board'), 'O');
   $('#boards').on('click', boardPiece, function(){
     makePlay(this);
@@ -35,9 +35,10 @@ function makePlay(piece){
   var pieceBoard = $(piece).closest('.js-board');
   var play = {};
   play.board = pieceBoard.attr('id');
+  
   if(!$(piece).hasClass('played') && !pieceBoard.hasClass('disabled-board')){
     var currentPiece = pieces[turn%numOfPlayers];
-    $(piece).html(currentPiece).addClass('played').attr('data-piece',currentPiece);
+    $(piece).html(currentPiece).addClass('played').addClass('piece-'+currentPiece).attr('data-piece',currentPiece);
     turn++;
     var pieceObj = createPieceObject(piece, pieceBoard);
 
@@ -45,8 +46,10 @@ function makePlay(piece){
       checkBoardWinner(pieceObj);
     }
 
-    setNextPlay(pieceObj.x, pieceObj.y);
-    $('.js-player-turn-piece').html(pieces[turn%numOfPlayers]);
+    if(!gameOver){
+      setNextPlay(pieceObj.x, pieceObj.y);
+      $('.js-player-turn-piece').html(pieces[turn%numOfPlayers]);
+    }
     //play.piece = pieceObj.obj.data('position');
     //plays.push(play);
     //$('#json').append('{"boardPosition": "'+play.board + '",' + '"piecePosition": "' + play.piece +'"},');
@@ -56,7 +59,6 @@ function makePlay(piece){
 }
 
 function createPieceObject(piece, board){
-
   var pieceObj = {};
   pieceObj.x = $(piece).data('x');
   pieceObj.y = $(piece).data('y');
@@ -71,12 +73,13 @@ function setNextPlay(x, y){
   var board = $('.js-board[data-x="'+x +'"]').filter('*[data-y="'+y +'"]');
   disabledBoards();
   board.removeClass('disabled-board').addClass('highlighted-board');
-
 }
+
 function disabledBoards(){
   $('.highlighted-board').removeClass('highlighted-board');
   $('.js-board').addClass('disabled-board');
 }
+
 function checkBoardWinner(pieceObj){
   if(canCheckPosition(1, 1, pieceObj) == 3) {
     setWinner(pieceObj);
@@ -104,8 +107,9 @@ function canCheckPosition(xDiff, yDiff, pieceObj){
   backwardPiece.x = pieceObj.x + (-xDiff);
   backwardPiece.y = pieceObj.y + (-yDiff);
   removeMatched(pieceObj);
-  console.log(pieceObj.piece);
+  
   if(isWithinBounds(forwardPiece.x, forwardPiece.y)){
+    
     if(isWithinBounds(backwardPiece.x, backwardPiece.y)){
       // check going forwards and going backwards
       return 1 + checkPosition(xDiff, yDiff, pieceObj) + checkPosition((-xDiff), (-yDiff), pieceObj);
@@ -127,11 +131,16 @@ function canCheckPosition(xDiff, yDiff, pieceObj){
     }
   }
 }
+
 function removeMatched(pieceObj){
   if(pieceObj.board){
     pieceObj.board.find('li').removeClass('matched');
   }
+  else{
+    $('.js-board').removeClass('matched');
+  }
 }
+
 function checkPosition(xDiff, yDiff, pieceObj){
   var newPiece = {};
   newPiece.x = pieceObj.x + (xDiff);
@@ -155,7 +164,6 @@ function checkPosition(xDiff, yDiff, pieceObj){
   else{
     return 0; //assume true because we haven't returned false
     // go in the opposite direction
-
   }
 }
 
@@ -181,7 +189,6 @@ function checkBoard(topXDiff, topYDiff, bottomXDiff, bottomYDiff, currentPiece){
     var bottomPiece = findPiece(bottomX, bottomY, currentPiece.board);
     if(topPiece.data('piece') == currentPiece.piece){
       if(bottomPiece.data('piece') == currentPiece.piece){
-        
         setWinner(topPiece, bottomPiece, currentPiece.obj)
         return true;
       }
@@ -194,6 +201,7 @@ function checkBoard(topXDiff, topYDiff, bottomXDiff, bottomYDiff, currentPiece){
     return false;
   }
 }
+
 function setWinner(pieceObj){
   if(pieceObj.board)
   {
@@ -203,10 +211,12 @@ function setWinner(pieceObj){
     checkGameWinner(boardObj);
   }
   else{
-    console.log(pieceObj.piece);
-    console.log("DO OTHER STUFF");
+    gameOver = true;
+    $('.js-board.matched').removeClass('disabled-board');
+    $('.js-board').removeClass('highlighted-board');
+    $('.game-winner').show();
+    $('.js-player-win').html(pieceObj.piece);
   }
-
 }
 
 function checkGameWinner(board){
@@ -228,6 +238,7 @@ function findPiece(x, y, board){
 function findBoardPiece(board, x, y){
   return board.find('*[data-x="'+x +'"]').filter('*[data-y="'+y +'"]');
 }
+
 function findBoard(x, y){
   return $('.js-board[data-x="'+x +'"]').filter('*[data-y="'+y +'"]');
 }
@@ -235,8 +246,7 @@ function findBoard(x, y){
 function runTest(){
   var test = testBoard();
   $.each(test, function(play){
-    //$('#'+this.boardPosition).find('.' + this.piecePosition).css('background', "#f0f");
-    $('#'+this.boardPosition).find('.' + this.piecePosition).click();
+      $('#'+this.boardPosition).find('.' + this.piecePosition).click();
   });
 }
 
