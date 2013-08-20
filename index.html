@@ -11,8 +11,10 @@
       <li> The first player to get three in a row on a board wins that board <li>
       <li> A Player wins by having three "won" boards in a row <li>
       </ul>
-      <div class="player-turn"> Now Playing : <strong class="js-player-turn-piece"> X </strong>
-        <div class="game-winner" style="display: hide;"> Game Over! <span class="js-player-win"> X </span> has Won! </div>
+      <div class="game-data">
+        <div class="player-turn"> Now Playing : <strong class="js-player-turn-piece"> X </strong>
+          <div class="game-winner" style="display: hide;"> Game Over! <span class="js-player-win"> X </span> has Won! </div>
+      </div>
     <div id="boards" class="boards-container">
       
     </div>
@@ -32,9 +34,25 @@
       </ul>
       </div>
     </script>
+
+    <footer> 
+      &#169; 2013 <a href="http://ponzeka.com" target="_blank"> Paige Ponzeka </a> | <a href="https://github.com/PaigePonzeka/TripleTac"> View the Code! </a>
+    </footer>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="scripts/handlebars.js"></script>
     <script type="text/javascript" src="scripts/scripts.js"></script>
     <div id="json"> </div>
+
+    <!--<div class="sign">
+      <div class="sign-board">
+        This is a sign board
+      </div>
+      <div class="sign-board-post">
+        <div class="sign-board-center">
+          <div class="sign-board-center-top"></div>
+          <div class="sign-board-center-bottom"></div>
+        </div>
+      </div>
+    </div> -->
   </body>
 </html>

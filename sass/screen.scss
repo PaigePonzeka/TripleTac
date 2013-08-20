@@ -7,12 +7,20 @@
 @import "compass_twitter_bootstrap";
 @import "colors";
 
+$colorHighlight: $dark_red;
+$colorX: $purple;
+$colorO: $lime_green;
+$colorDefaultFont: #333;
+$colorDefaultBorder: #999;
+$colorDisabledBoardBg: #ddd;
 $piece_size: 50px;
 $board_size: ($piece_size + 2) * 3;
 $board-padding: 15px;
+
 .boards-container {
   width: ($board_size + ($board-padding * 2) ) * 3 + 15;
   margin: 0 auto;
+  @include clearfix;
 }
   
 h1{
@@ -25,27 +33,22 @@ h1{
   height: $board_size;
   float: left;
   margin: $board-padding;
-  border: 1px solid #fff;
+  border: 2px solid #fff;
   @include border-radius(10px);
   
   &.highlighted-board {
-    border: 1px solid #f00;
+    border: 2px solid $colorHighlight;
+    > li {
+      border: 1px solid $colorHighlight;
+    }
   }
   
   &.disabled-board{
     opacity: 0.4;
-    background: #ddd;
-    
-    >li{
-      border-color: #000;
-    }
+    background: $colorDisabledBoardBg;
   }
 
   &.won-board {
-    
-    &.disabled-board{
-      border-color: #600;
-    }
     
     &.piece-x{
       background-image: url('../images/x.png');
@@ -58,12 +61,12 @@ h1{
     &.matched {
       &.piece-X {
         > li {
-          border-color: $purple;
+          border-color: $colorX;
         }
       }
       &.piece-O {
         > li {
-          border-color: $green;
+          border-color: $colorO;
         }
       }
     }
@@ -73,21 +76,21 @@ h1{
     width: $piece_size;
     height: $piece_size;
     float: left;
-    border: 1px solid #444;
+    border: 1px solid $colorDefaultBorder;
     cursor: pointer;
     text-align: center;
     line-height: $piece_size;
     font-size: 24px;
-    color: #333;
+    color: $colorDefaultFont;
 
     &.matched {
       font-weight: bold;
 
       &.piece-X {
-        color: $purple;
+        color: $colorX;
       }
       &.piece-O {
-        color: $green;
+        color: $colorO;
       }
     }
     
@@ -119,3 +122,43 @@ h1{
   }
 }
 
+/* Sign board */
+$cylinder-width: 25px;
+.sign-board {
+  width: 100px; 
+  height: 50px;
+  border: 1px solid #606;
+}
+.sign-board-center {
+  width: $cylinder-width;
+  height: 50px;
+  background: #f0f;
+  position: relative;
+}
+
+.sign-board-center-top, .sign-board-center-bottom{
+  width: $cylinder-width;
+  height: $cylinder-width/2;
+  @include border-radius($cylinder-width);
+  background: #f00;
+  position: absolute;
+}
+
+.sign-board-center-top {
+  top: -(($cylinder-width/2)/2);
+  background: #f0f;
+}
+
+.sign-board-center-bottom {
+  bottom: -(($cylinder-width/2)/2);
+  background: #f0f;
+}
+/*<div class="sign-board-center">
+          <div class="sign-board-center-top"></div>
+          <div class="sign-board-center-bottom"></div<
+        </div>
+*/
+
+footer {
+  text-align: center;
+}
