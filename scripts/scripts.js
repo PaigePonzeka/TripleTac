@@ -14,7 +14,7 @@ $(document).ready(function(){
   $('#boards').on('click', boardPiece, function(){
     makePlay(this);
   });
-  runTest();
+  //runTest();
 });
 
 function generateBoard(){
