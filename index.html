@@ -1,7 +1,8 @@
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="stylesheets/screen.css">
     <title> Super Tic Tac Toe </title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/screen.css">
+    <link href='images/favicon.ico' rel='icon' type='image/gif' />
   </head>
   <body>
     <h1> Super Tic Tac Toe </h1>
@@ -13,7 +14,7 @@
       </ul>
       <div class="game-data">
         <div class="player-turn"> Now Playing : <strong class="js-player-turn-piece"> X </strong>
-          <div class="game-winner" style="display: hide;"> Game Over! <span class="js-player-win"> X </span> has Won! </div>
+          <div class="game-winner" style="display: none;"> Game Over! <span class="js-player-win"> X </span> has Won! </div>
       </div>
     <div id="boards" class="boards-container">
       
@@ -42,17 +43,5 @@
     <script type="text/javascript" src="scripts/handlebars.js"></script>
     <script type="text/javascript" src="scripts/scripts.js"></script>
     <div id="json"> </div>
-
-    <!--<div class="sign">
-      <div class="sign-board">
-        This is a sign board
-      </div>
-      <div class="sign-board-post">
-        <div class="sign-board-center">
-          <div class="sign-board-center-top"></div>
-          <div class="sign-board-center-bottom"></div>
-        </div>
-      </div>
-    </div> -->
   </body>
 </html>

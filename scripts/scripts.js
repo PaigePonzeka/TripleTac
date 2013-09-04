@@ -11,7 +11,6 @@ var gameOver = false;
 
 $(document).ready(function(){
   generateBoard();
-  //setWinner($('.board-container:first-child .js-board'), 'O');
   $('#boards').on('click', boardPiece, function(){
     makePlay(this);
   });
@@ -35,12 +34,14 @@ function makePlay(piece){
   var pieceBoard = $(piece).closest('.js-board');
   var play = {};
   play.board = pieceBoard.attr('id');
-  
   if(!$(piece).hasClass('played') && !pieceBoard.hasClass('disabled-board')){
     var currentPiece = pieces[turn%numOfPlayers];
     $(piece).html(currentPiece).addClass('played').addClass('piece-'+currentPiece).attr('data-piece',currentPiece);
     turn++;
     var pieceObj = createPieceObject(piece, pieceBoard);
+    if (pieceBoard.find('.played').length == 9 ){
+      pieceBoard.addClass('full-board');
+    }
 
     if(!pieceBoard.hasClass('won-board')){
       checkBoardWinner(pieceObj);
@@ -49,15 +50,18 @@ function makePlay(piece){
     if(!gameOver){
       setNextPlay(pieceObj.x, pieceObj.y);
       $('.js-player-turn-piece').html(pieces[turn%numOfPlayers]);
+     
     }
-    //play.piece = pieceObj.obj.data('position');
-    //plays.push(play);
-    //$('#json').append('{"boardPosition": "'+play.board + '",' + '"piecePosition": "' + play.piece +'"},');
-    //console.log(plays);
+    play.piece = pieceObj.obj.data('position');
+    //appendTestPlay(play.board, play.piece);
+    plays.push(play);
   }
-  // TODO if the board is disabled show flash the available board
 }
 
+function appendTestPlay(board, piece){
+  $('#json').append('{"boardPosition": "'+board + '",' + '"piecePosition": "' + piece +'"},');
+
+}
 function createPieceObject(piece, board){
   var pieceObj = {};
   pieceObj.x = $(piece).data('x');
@@ -73,11 +77,22 @@ function setNextPlay(x, y){
   var board = $('.js-board[data-x="'+x +'"]').filter('*[data-y="'+y +'"]');
   disabledBoards();
   board.removeClass('disabled-board').addClass('highlighted-board');
+  var pieces = $('.highlighted-board > li.played');
+
+  if(pieces.length >= 9){
+    enableBoards();
+  }
+ 
 }
 
 function disabledBoards(){
   $('.highlighted-board').removeClass('highlighted-board');
   $('.js-board').addClass('disabled-board');
+}
+
+function enableBoards(){
+  $('.js-board').removeClass('disabled-board');
+  $('.highlighted-board').removeClass('highlighted-board');
 }
 
 function checkBoardWinner(pieceObj){
@@ -214,8 +229,9 @@ function setWinner(pieceObj){
     gameOver = true;
     $('.js-board.matched').removeClass('disabled-board');
     $('.js-board').removeClass('highlighted-board');
-    $('.game-winner').show();
+    $('.game-winner').addClass('piece-' + pieceObj.piece).show();
     $('.js-player-win').html(pieceObj.piece);
+    $('#boards').addClass('gameover');
   }
 }
 
@@ -244,6 +260,7 @@ function findBoard(x, y){
 }
 
 function runTest(){
+  //var test = testBoard();
   var test = testBoard();
   $.each(test, function(play){
       $('#'+this.boardPosition).find('.' + this.piecePosition).click();
@@ -410,4 +427,9 @@ function testBoard(){
     }
 ];
 return testboard;
+}
+
+function boardTestFull(){
+  var test = [{"boardPosition": "board-position-1","piecePosition": "position-1"},{"boardPosition": "board-position-1","piecePosition": "position-0"},{"boardPosition": "board-position-0","piecePosition": "position-1"},{"boardPosition": "board-position-1","piecePosition": "position-4"},{"boardPosition": "board-position-4","piecePosition": "position-1"},{"boardPosition": "board-position-1","piecePosition": "position-5"},{"boardPosition": "board-position-5","piecePosition": "position-1"},{"boardPosition": "board-position-1","piecePosition": "position-7"},{"boardPosition": "board-position-7","piecePosition": "position-1"},{"boardPosition": "board-position-1","piecePosition": "position-3"},{"boardPosition": "board-position-3","piecePosition": "position-1"},{"boardPosition": "board-position-1","piecePosition": "position-6"},{"boardPosition": "board-position-6","piecePosition": "position-1"},{"boardPosition": "board-position-1","piecePosition": "position-8"},{"boardPosition": "board-position-8","piecePosition": "position-1"},{"boardPosition": "board-position-1","piecePosition": "position-2"},{"boardPosition": "board-position-2","piecePosition": "position-1"}];
+  return test;
 }
